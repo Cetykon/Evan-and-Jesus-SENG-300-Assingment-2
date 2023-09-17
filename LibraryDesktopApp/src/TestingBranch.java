@@ -25,60 +25,9 @@ class Book {
 	LinkedList<String> Isbn = new LinkedList<String>();
 	LinkedList<String> Title = new LinkedList<String>();
 	LinkedList<Double> AverageRating = new LinkedList<Double>();
-	
+	LinkedList<String> Author = new LinkedList<String>();
 		
 }
-
-//SelectionSort_________________________________________________________________________________________________________
-class modifySelectionSort {
-
-	/**
-	 *@author downey
-	 *
-		/**
-		 * Swaps the elements at indexes i and j.
-		 */
-		public static void swapElements(LinkedList<Integer> originalPublicationYear, int i, int j) {
-			int temp = originalPublicationYear.get(i);
-			originalPublicationYear.set(i,originalPublicationYear.get(j));
-			originalPublicationYear.set(j,temp);
-			
-		}
-		/**
-		 * Finds the index of the lowest value
-		 * between indices low and high (inclusive).
-		 */
-		public static int indexLowest(LinkedList<Integer> originalPublicationYear, int start) {
-			int lowIndex = start;
-			for (int i = start; i < originalPublicationYear.size(); i++) {
-				if (originalPublicationYear.get(i) < originalPublicationYear.get(lowIndex)) {
-					lowIndex = i;
-				}
-			}
-			return lowIndex;
-		}
-
-		/**
-		 * Sorts the cards (in place) using selection sort.
-		 * @return 
-		 */
-		public LinkedList<Integer> selectionSort(LinkedList<Integer> originalPublicationYear) {
-			for (int i = 0; i < originalPublicationYear.size(); i++) {
-				int j = indexLowest(originalPublicationYear, i);
-				swapElements(originalPublicationYear, i, j);
-				//Author Swap
-				//Isbn
-				//BookID
-				//Title
-				//AverageRating
-				
-			}
-			return originalPublicationYear;
-		}
-
-	
-}
-
 
 
 public class TestingBranch {
@@ -135,6 +84,7 @@ public class TestingBranch {
 				BookObjMethod.bookId.add(Integer.parseInt(array[0]));
 				BookObjMethod.Title.add(array[10]);
 				BookObjMethod.Isbn.add(array[5]);
+				BookObjMethod.Author.add(array[7]);
 				BookObjMethod.originalPublicationYear.add(Integer.parseInt(array[8]));
 				BookObjMethod.AverageRating.add(Double.parseDouble(array[12]));
 				
@@ -145,15 +95,19 @@ public class TestingBranch {
 			
 
 //________________________________________________________________________________________________________________
-			modifySelectionSort publicYear = new modifySelectionSort();		
+				
 			
-			BookObjMethod.originalPublicationYear = publicYear.selectionSort(BookObjMethod.originalPublicationYear);
+			selectionSort(BookObjMethod.originalPublicationYear, BookObjMethod.bookId, BookObjMethod.Title, 
+					BookObjMethod.Isbn, BookObjMethod.Author, BookObjMethod.AverageRating);
 				
 	
 					
 			System.out.println(BookObjMethod.originalPublicationYear);
-					
-			
+			System.out.println(BookObjMethod.bookId);
+			System.out.println(BookObjMethod.Title);
+			System.out.println(BookObjMethod.Isbn);
+			System.out.println(BookObjMethod.Author);		
+			System.out.println(BookObjMethod.AverageRating);	
 					
 					
 //Printing output_____________________________________________________________________________________________					
@@ -168,7 +122,86 @@ public class TestingBranch {
 			e.printStackTrace();
 		}
 			
-			
 	}
+//SelectionSort for publication year_________________________________________________________________________________________________________
+	/**
+	 *@author downey
+	 *
+		/**
+		 * Swaps the elements at indexes i and j.
+	 * @param dbl1 
+	 * @param str2 
+	 * @param str1 
+	 * @param justSwappingInt 
+	 * @param str3 
+		 */
+		public static void swapElements(LinkedList<Integer> LLIntergerSort, int i, int j, LinkedList<Integer> justSwappingInt, 
+				LinkedList<String> str1, LinkedList<String> str2, LinkedList<String> str3, LinkedList<Double> dbl1) {
+			int temp = LLIntergerSort.get(i);
+			LLIntergerSort.set(i,LLIntergerSort.get(j));
+			LLIntergerSort.set(j,temp);
+			
+			//swamping the rest of inputed data
+			int temp1 = justSwappingInt.get(i);
+			justSwappingInt.set(i,justSwappingInt.get(j));
+			justSwappingInt.set(j,temp1);
+			
+			String temp2 = str1.get(i);
+			str1.set(i,str1.get(j));
+			str1.set(j,temp2);
+			
+			String temp3 = str2.get(i);
+			str1.set(i,str2.get(j));
+			str1.set(j,temp3);
+			
+			String temp4 = str3.get(i);
+			str1.set(i,str3.get(j));
+			str1.set(j,temp4);
+			
+			Double temp5 = dbl1.get(i);
+			dbl1.set(i,dbl1.get(j));
+			dbl1.set(j,temp5);
+			
+			
+			//Author Swap
+			//Isbn
+			//BookID 
+			//Title
+			//AverageRating
+			
+			
+		}
+		/**
+		 * Finds the index of the lowest value
+		 * between indices low and high (inclusive).
+		 */
+		public static int indexLowest(LinkedList<Integer> LLIntegerSort, int start) {
+			int lowIndex = start;
+			for (int i = start; i < LLIntegerSort.size(); i++) {
+				if (LLIntegerSort.get(i) < LLIntegerSort.get(lowIndex)) {
+					lowIndex = i;
+				}
+			}
+			return lowIndex;
+		}
+
+		/**
+		 * Sorts the cards (in place) using selection sort.
+		 * @return 
+		 */
+		public static void selectionSort(LinkedList<Integer> LLIntegerSort, LinkedList<Integer> JustSwappingInt, 
+				LinkedList<String> str1, LinkedList<String> str2, LinkedList<String> str3, LinkedList<Double> Dbl1) {
+			for (int i = 0; i < LLIntegerSort.size(); i++) {
+				int j = indexLowest(LLIntegerSort, i);
+				swapElements(LLIntegerSort, i, j, JustSwappingInt, str1, str2, str3, Dbl1);
+				//Author Swap
+				//Isbn
+				//BookID
+				//Title
+				//AverageRating
+				
+			}
+			
+		}
 
 }
