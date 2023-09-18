@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Scanner;
 
 class Book {
 	
@@ -74,9 +75,36 @@ class Book {
 
 }
 
+class BinarySearch {
+
+    public void bookSearch(ArrayList<Book> books, int topCount, boolean ascending) {
+        // Sort the books by rating
+    	if (ascending) {
+    		books.sort((book1, book2) -> Double.compare(Double.parseDouble(book2.getBookRating()), Double.parseDouble(book1.getBookRating())));
+    	}
+    	else {
+    		books.sort((book1, book2) -> Double.compare(Double.parseDouble(book1.getBookRating()), Double.parseDouble(book2.getBookRating())));
+    		
+    	}
+        
+
+        // Makes sure it doesn't exceed the size of the arraylist
+        int numBooks = Math.min(topCount, books.size());
+        
+        // Searches to find top books by rating
+        for (int i = 0; i < numBooks; i++) {
+            Book book = books.get(i);
+            System.out.println("Book title: " + book.getBookTitle() + ", Rating: " + book.getBookRating());
+        }
+    }
+}
+
+
 public class Main {
 
 	public static void main(String[] args) {
+		Scanner scnr = new Scanner(System.in);
+		BinarySearch binarySearch = new BinarySearch();
 		
 
 //Reading File________________________________________________________________________________________________________________
@@ -167,11 +195,26 @@ public class Main {
 
 				}
 				
-				// Testing looking up the title of a book in the Books arraylist
-				Book bookIndex = Books.get(88);
-				String bookTitleofFirstBook = bookIndex.getBookTitle();
-				System.out.println(bookIndex);
-				System.out.println(bookTitleofFirstBook);
+				// Testing user searching for book using ID
+				System.out.println("Search for a book using ID (0-98): ");
+				int userInput = scnr.nextInt();
+				Book bookIndex = Books.get(userInput);
+				String searchedBookTitle = bookIndex.getBookTitle();
+				String searchedBookAuthor = bookIndex.getBookAuthor();
+				String searchedBookRating = bookIndex.getBookRating();
+				
+				System.out.println("Title: " + searchedBookTitle);
+				System.out.println("Author: " + searchedBookAuthor);
+				System.out.println("Rating: " + searchedBookRating + "\n");
+				
+				// Testing sorting books in ascending and descending order based on rating
+				System.out.println("Top 10 Books Sorted by Rating: ");
+				binarySearch.bookSearch(Books, 10, true );
+				System.out.println("");
+				System.out.println("Bottom 10 Books Sorted by Rating: ");
+				binarySearch.bookSearch(Books, 10, false);
+
+				
 				
 				
 			} catch (FileNotFoundException e) {
