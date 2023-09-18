@@ -75,9 +75,9 @@ class Book {
 
 }
 
-class BinarySearch {
+class BookRatingSort {
 
-    public void bookSearch(ArrayList<Book> books, int topCount, boolean ascending) {
+    public void bookRatingSort(ArrayList<Book> books, int topCount, boolean ascending) {
         // Sort the books by rating
     	if (ascending) {
     		books.sort((book1, book2) -> Double.compare(Double.parseDouble(book2.getBookRating()), Double.parseDouble(book1.getBookRating())));
@@ -104,7 +104,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		Scanner scnr = new Scanner(System.in);
-		BinarySearch binarySearch = new BinarySearch();
+		BookRatingSort binarySearch = new BookRatingSort();
 		
 
 //Reading File________________________________________________________________________________________________________________
@@ -209,10 +209,10 @@ public class Main {
 				
 				// Testing sorting books in ascending and descending order based on rating
 				System.out.println("Top 10 Books Sorted by Rating: ");
-				binarySearch.bookSearch(Books, 10, true );
+				binarySearch.bookRatingSort(Books, 10, true );
 				System.out.println("");
 				System.out.println("Bottom 10 Books Sorted by Rating: ");
-				binarySearch.bookSearch(Books, 10, false);
+				binarySearch.bookRatingSort(Books, 10, false);
 
 				
 				
