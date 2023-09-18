@@ -11,9 +11,10 @@ import java.util.ArrayList;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
-class Book {
+class Book implements Comparable<Book>{
 	
     private String bookId;
     private String isbn;
@@ -72,9 +73,40 @@ class Book {
                ", Rating: " + rating +
                ", Publishing Year: " + publishingYear;
     }
+    
+    public int compareTo(Book otherBook) {
+    	return this.getBookId().compareTo(otherBook.getBookId());
+    }
 
 }
 
+// Searches for a book by it's ID
+class BookBinarySearch {
+	
+	public int binarySearchById(ArrayList<Book> books, String bookId) {
+		int left = 0;
+		int right = books.size() - 1;
+		
+		while (left <= right) {
+			int mid = left + (right - left) / 2;
+			int compareResult = books.get(mid).getBookId().compareTo(bookId);
+			
+			if (compareResult == 0) {
+				return mid;
+			}
+			else if (compareResult < 0) {
+				left = mid + 1;
+			}
+			else {
+				right = mid - 1;
+			}
+		}
+		
+		return -1;
+	}
+}
+
+// Sorts top and bottom 10 books based on rating
 class BookRatingSort {
 
     public void bookRatingSort(ArrayList<Book> books, int topCount, boolean ascending) {
@@ -105,6 +137,7 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner scnr = new Scanner(System.in);
 		BookRatingSort binarySearch = new BookRatingSort();
+		BookBinarySearch bookBinarySearch = new BookBinarySearch();
 		
 
 //Reading File________________________________________________________________________________________________________________
@@ -192,27 +225,40 @@ public class Main {
 					// Creates a book object in the Book arrayList
 					Book book = new Book(bookId, bookIsbnNum, bookAuthor, bookTitle, avgRating, origPubYear);
 		            Books.add(book);
+		            
+		            System.out.println(book);
 
 				}
 				
-				// Testing user searching for book using ID
-				System.out.println("Search for a book using ID (0-98): ");
+				// Searching for book based on user inputed book ID
+				Collections.sort(Books);
+				System.out.println("Enter a book ID to search: ");
 				int userInput = scnr.nextInt();
-				Book bookIndex = Books.get(userInput);
-				String searchedBookTitle = bookIndex.getBookTitle();
-				String searchedBookAuthor = bookIndex.getBookAuthor();
-				String searchedBookRating = bookIndex.getBookRating();
+				String searchBookId = String.valueOf(userInput);
+				int searchResult = bookBinarySearch.binarySearchById(Books, searchBookId);
 				
-				System.out.println("Title: " + searchedBookTitle);
-				System.out.println("Author: " + searchedBookAuthor);
-				System.out.println("Rating: " + searchedBookRating + "\n");
+				if (searchResult != -1) {
+					Book foundBook = Books.get(searchResult);
+					System.out.println("Book found: " + foundBook);
+					System.out.println("Book ID: " + foundBook.getBookId());
+					System.out.println("Book ISBN: " + foundBook.getBookIsbn());
+					System.out.println("Book Author: " + foundBook.getBookAuthor());
+					System.out.println("Book Title: " + foundBook.getBookTitle());
+					System.out.println("Book Rating: " + foundBook.getBookRating());
+					System.out.println("Book Publishing Year: " + foundBook.getBookPubYear());
+				}
+				else {
+					System.out.println("Book with ID: " + searchBookId + " cannot be found.");
+				}
 				
+				/*
 				// Testing sorting books in ascending and descending order based on rating
 				System.out.println("Top 10 Books Sorted by Rating: ");
 				binarySearch.bookRatingSort(Books, 10, true );
 				System.out.println("");
 				System.out.println("Bottom 10 Books Sorted by Rating: ");
 				binarySearch.bookRatingSort(Books, 10, false);
+				*/
 
 				
 				
