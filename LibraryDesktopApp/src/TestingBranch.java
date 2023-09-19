@@ -94,24 +94,33 @@ public class TestingBranch {
 				}
 			
 
-//________________________________________________________________________________________________________________
+//_Printing output for testing_________________________________________________________________________________________
 				
-			
-			selectionSort(BookObjMethod.originalPublicationYear, BookObjMethod.bookId, BookObjMethod.Title, 
+			//sorting by publication year
+			selectionSortInt(BookObjMethod.originalPublicationYear, BookObjMethod.bookId, BookObjMethod.Title, 
 					BookObjMethod.Isbn, BookObjMethod.Author, BookObjMethod.AverageRating);
-				
-	
-					
+		
 			System.out.println(BookObjMethod.originalPublicationYear);
 			System.out.println(BookObjMethod.bookId);
 			System.out.println(BookObjMethod.Title);
 			System.out.println(BookObjMethod.Isbn);
 			System.out.println(BookObjMethod.Author);		
 			System.out.println(BookObjMethod.AverageRating);	
+			
+			//Sorting by Author
+			selectionSortString(BookObjMethod.Author, BookObjMethod.bookId, BookObjMethod.originalPublicationYear, 
+					BookObjMethod.Isbn, BookObjMethod.Title, BookObjMethod.AverageRating);
+			
+			System.out.println(BookObjMethod.Author);
+			System.out.println(BookObjMethod.originalPublicationYear);
+			System.out.println(BookObjMethod.bookId);
+			System.out.println(BookObjMethod.Title);
+			System.out.println(BookObjMethod.Isbn);	
+			System.out.println(BookObjMethod.AverageRating);	
 					
 					
-//Printing output_____________________________________________________________________________________________					
-					//change array index to test the retrieval of each field
+//________________________________________________________________________________________________________					
+					
 					
 					
 				
@@ -135,7 +144,7 @@ public class TestingBranch {
 	 * @param justSwappingInt 
 	 * @param str3 
 		 */
-		public static void swapElements(LinkedList<Integer> LLIntergerSort, int i, int j, LinkedList<Integer> justSwappingInt, 
+		public static void swapElementsInt(LinkedList<Integer> LLIntergerSort, int i, int j, LinkedList<Integer> justSwappingInt, 
 				LinkedList<String> str1, LinkedList<String> str2, LinkedList<String> str3, LinkedList<Double> dbl1) {
 			int temp = LLIntergerSort.get(i);
 			LLIntergerSort.set(i,LLIntergerSort.get(j));
@@ -151,16 +160,16 @@ public class TestingBranch {
 			str1.set(j,temp2);
 			
 			String temp3 = str2.get(i);
-			str1.set(i,str2.get(j));
-			str1.set(j,temp3);
-			
+			str2.set(i, str2.get(j));
+			str2.set(j, temp3);
+
 			String temp4 = str3.get(i);
-			str1.set(i,str3.get(j));
-			str1.set(j,temp4);
-			
+			str3.set(i, str3.get(j));
+			str3.set(j, temp4);
+
 			Double temp5 = dbl1.get(i);
-			dbl1.set(i,dbl1.get(j));
-			dbl1.set(j,temp5);
+			dbl1.set(i, dbl1.get(j));
+			dbl1.set(j, temp5);
 			
 			
 			//Author Swap
@@ -175,7 +184,7 @@ public class TestingBranch {
 		 * Finds the index of the lowest value
 		 * between indices low and high (inclusive).
 		 */
-		public static int indexLowest(LinkedList<Integer> LLIntegerSort, int start) {
+		public static int indexLowestInt(LinkedList<Integer> LLIntegerSort, int start) {
 			int lowIndex = start;
 			for (int i = start; i < LLIntegerSort.size(); i++) {
 				if (LLIntegerSort.get(i) < LLIntegerSort.get(lowIndex)) {
@@ -189,11 +198,11 @@ public class TestingBranch {
 		 * Sorts the cards (in place) using selection sort.
 		 * @return 
 		 */
-		public static void selectionSort(LinkedList<Integer> LLIntegerSort, LinkedList<Integer> JustSwappingInt, 
+		public static void selectionSortInt(LinkedList<Integer> LLIntegerSort, LinkedList<Integer> JustSwappingInt, 
 				LinkedList<String> str1, LinkedList<String> str2, LinkedList<String> str3, LinkedList<Double> Dbl1) {
 			for (int i = 0; i < LLIntegerSort.size(); i++) {
-				int j = indexLowest(LLIntegerSort, i);
-				swapElements(LLIntegerSort, i, j, JustSwappingInt, str1, str2, str3, Dbl1);
+				int j = indexLowestInt(LLIntegerSort, i);
+				swapElementsInt(LLIntegerSort, i, j, JustSwappingInt, str1, str2, str3, Dbl1);
 				//Author Swap
 				//Isbn
 				//BookID
@@ -203,5 +212,79 @@ public class TestingBranch {
 			}
 			
 		}
+		
+
+
+		public static void swapElementsString(LinkedList<String> str1, LinkedList<Integer> LLIntergerSort, int i, int j, LinkedList<Integer> justSwappingInt, 
+				LinkedList<String> str2, LinkedList<String> str3, LinkedList<Double> dbl1) {
+			int temp = LLIntergerSort.get(i);
+			LLIntergerSort.set(i,LLIntergerSort.get(j));
+			LLIntergerSort.set(j,temp);
+			
+			//swamping the rest of inputed data
+			int temp1 = justSwappingInt.get(i);
+			justSwappingInt.set(i,justSwappingInt.get(j));
+			justSwappingInt.set(j,temp1);
+			
+			String temp2 = str1.get(i);
+			str1.set(i,str1.get(j));
+			str1.set(j,temp2);
+			
+			String temp3 = str2.get(i);
+			str2.set(i, str2.get(j));
+			str2.set(j, temp3);
+
+			String temp4 = str3.get(i);
+			str3.set(i, str3.get(j));
+			str3.set(j, temp4);
+
+			Double temp5 = dbl1.get(i);
+			dbl1.set(i, dbl1.get(j));
+			dbl1.set(j, temp5);
+			
+			
+			//Author Swap
+			//Isbn
+			//BookID 
+			//Title
+			//AverageRating
+			
+			
+		}
+		/**
+			Finds the index of the lowest value (alphabetically) between
+		 	indices low and high (inclusive) in a string array.
+		 */
+		public static int indexLowestString(LinkedList<String> str1, int start) {
+			int lowIndex = start;
+			for (int i = start; i < str1.size(); i++) {
+				if (str1.get(i).compareTo(str1.get(lowIndex)) < 0) {
+					lowIndex = i;
+				}
+			}
+			return lowIndex;
+		}
+
+		/**
+		 * Sorts the cards (in place) using selection sort.
+		 * @return 
+		 */
+		public static void selectionSortString(LinkedList<String> str1,LinkedList<Integer> LLIntegerSort, LinkedList<Integer> JustSwappingInt, 
+				 LinkedList<String> str2, LinkedList<String> str3, LinkedList<Double> Dbl1) {
+			for (int i = 0; i < LLIntegerSort.size(); i++) {
+				int j = indexLowestString(str1, i);
+				swapElementsString(str1, LLIntegerSort, i, j, JustSwappingInt, str2, str3, Dbl1);
+				//Author Swap
+				//Isbn
+				//BookID
+				//Title
+				//AverageRating
+				
+			}
+			
+		}
+		
+	 
+		
 
 }
