@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Arrays;
+import java.util.Iterator;
 
 
 
@@ -95,8 +96,9 @@ public class TestingBranch {
 			
 
 //_Printing output for testing_________________________________________________________________________________________
-				
-			//sorting by publication year
+	
+			
+			//sorting by publication year Ascending
 			selectionSortInt(BookObjMethod.originalPublicationYear, BookObjMethod.bookId, BookObjMethod.Title, 
 					BookObjMethod.Isbn, BookObjMethod.Author, BookObjMethod.AverageRating);
 		
@@ -106,8 +108,9 @@ public class TestingBranch {
 			System.out.println(BookObjMethod.Isbn);
 			System.out.println(BookObjMethod.Author);		
 			System.out.println(BookObjMethod.AverageRating);	
+		
 			
-			//Sorting by Author
+			//Sorting by Author Ascending
 			selectionSortString(BookObjMethod.Author, BookObjMethod.bookId, BookObjMethod.originalPublicationYear, 
 					BookObjMethod.Isbn, BookObjMethod.Title, BookObjMethod.AverageRating);
 			
@@ -118,12 +121,19 @@ public class TestingBranch {
 			System.out.println(BookObjMethod.Isbn);	
 			System.out.println(BookObjMethod.AverageRating);	
 					
-					
+			
+			//Searching for book ID
+			int bookPositionIndex = returnPositionInt(BookObjMethod.bookId, 555);
+			if (bookPositionIndex != -1) {
+				System.out.println(bookPositionIndex);
+			}
+			else {
+				System.out.println("Couldn't Find the book! (ID NOT FOUND)");
+			}
+			
+			
 //________________________________________________________________________________________________________					
 					
-					
-					
-				
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -132,7 +142,7 @@ public class TestingBranch {
 		}
 			
 	}
-//SelectionSort for publication year_________________________________________________________________________________________________________
+//SelectionSort for integers_________________________________________________________________________________________________________
 	/**
 	 *@author downey
 	 *
@@ -213,7 +223,7 @@ public class TestingBranch {
 			
 		}
 		
-
+//Selection Sort for strings
 
 		public static void swapElementsString(LinkedList<String> str1, LinkedList<Integer> LLIntergerSort, int i, int j, LinkedList<Integer> justSwappingInt, 
 				LinkedList<String> str2, LinkedList<String> str3, LinkedList<Double> dbl1) {
@@ -284,7 +294,38 @@ public class TestingBranch {
 			
 		}
 		
-	 
-		
+	 //Takes the passed linked list of integers and an int value, then it searches if the int value is in the LinkedList
+		public static int returnPositionInt(LinkedList<Integer> IntLinkList, int intValue) {
+		    
+		    //Using the Iterator Class
+		    Iterator<Integer> itr = IntLinkList.iterator();
+		    int i = 0;
+		    while (itr.hasNext()) {
+		        Integer currentValue = itr.next();
+		        if (currentValue.equals(intValue)) {
+		            return i;
+		        }
+		        i++;
+		    }
+		    //Return -1 if not found
+		    return -1;
+		}
+
+	 //Just in case we want to search for ISBN
+		public static int returnPositionStr(LinkedList<String> IntLinkList, String intValue) {
+		    
+		    //Using the Iterator Class
+		    Iterator<String> itr = IntLinkList.iterator();
+		    int i = 0;
+		    while (itr.hasNext()) {
+		        String currentValue = itr.next();
+		        if (currentValue.equals(intValue)) {
+		            return i;
+		        }
+		        i++;
+		    }
+		    //Return -1 if not found
+		    return -1;
+		}
 
 }
