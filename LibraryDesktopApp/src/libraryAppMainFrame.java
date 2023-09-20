@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Font;
 
@@ -68,8 +69,9 @@ public class libraryAppMainFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public libraryAppMainFrame() {
+		Timer timer = new Timer();
 		
-		String filePath = "src/books(1).csv";
+		String filePath = "src/books(2).csv";
     	String line = "";
     	BufferedReader reader = null;
     	
@@ -176,6 +178,13 @@ public class libraryAppMainFrame extends JFrame {
 		JButton btnByAuthor = new JButton("By Author");
 		btnByAuthor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Collections.sort(Books);
+		        ratingSort.bookAuthorSort(Books, 99, true);
+		        displayPage(currentPage, Books);
+
+		        
+		        DefaultTableModel model = (DefaultTableModel) tblBookContainer.getModel();
+		        model.setColumnIdentifiers(new Object[]{"ID", "ISBN", "Year", "Author", "Rating"});
 			}
 		});
 		btnByAuthor.setBounds(416, 160, 122, 21);
@@ -197,12 +206,16 @@ public class libraryAppMainFrame extends JFrame {
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String userInput = textField.getText();
+				String userInput = textField.getText().trim();
 
 					// Searching for book based on user inputed book ID
 					Collections.sort(Books);
 					String searchBookId = String.valueOf(userInput);
+					
+					timer.start();
 					int searchResult = BookBinarySearch.binarySearchById(Books, searchBookId);
+					
+					
 					Book foundBook = Books.get(searchResult);
 					
 					if (searchResult != -1) {
@@ -217,27 +230,13 @@ public class libraryAppMainFrame extends JFrame {
 							foundBook.getBookRating(),
 						};
 						model.addRow(rowData);
+						timer.end();
+						System.out.println(timer.getTotalTime());
 					}
-					else {
-						System.out.println("Book with ID: " + searchBookId + " cannot be found.");
-					}
-					
-					/*
-					// Testing sorting books in ascending and descending order based on rating
-					
-					System.out.println("Top 10 Books Sorted by Rating: ");
-					sortResultTextArea.append(binarySearch.bookRatingSort(Books, 10, true ));
-					System.out.println("Top 10 Books Sorted by Rating: ");
-					binarySearch.bookRatingSort(Books, 10, true );
-					System.out.println("");
-					System.out.println("Bottom 10 Books Sorted by Rating: ");
-					binarySearch.bookRatingSort(Books, 10, false);
-					*/
-					
-
 				}
-			
 		});
+		
+		
 				
 		btnSearch.setBounds(75, 125, 95, 21);
 		contentPane.add(btnSearch);

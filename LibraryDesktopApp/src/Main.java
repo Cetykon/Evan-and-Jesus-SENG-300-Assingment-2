@@ -20,6 +20,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 
+
 class Book implements Comparable<Book>{
 	
     private String bookId;
@@ -83,105 +84,6 @@ class Book implements Comparable<Book>{
     public int compareTo(Book otherBook) {
     	return this.getBookId().compareTo(otherBook.getBookId());
     }
-    
-    
-    public void loadAndSearchBooks(String filePath, String userInput) {
-    	libraryAppMainFrame appMainFrame = new libraryAppMainFrame();
-    	DefaultTableModel table = appMainFrame.model;
-    	String line = "";
-    	BufferedReader reader = null;
-    	
-    	try {
-			reader = new BufferedReader(new FileReader(filePath));
-			ArrayList<String[]> books = new ArrayList<>();
-			
-			while ((line = reader.readLine()) != null) {
-				books.add(line.split(","));
-			}
-			
-			boolean skipTheFirstIteration = true;
-			
-			ArrayList<Book> Books = new ArrayList<>();
-			
-			//Iterating through data collected
-			for (String[] array : books) {
-				
-				//This if statement allows skips the first iteration of the loop
-				if (skipTheFirstIteration) {
-					skipTheFirstIteration = false;
-
-					continue;
-				}
-				
-				// Gets the value at the specified index in the array
-				String bookAuthor = String.valueOf(array[7]);
-				String bookTitle = String.valueOf(array[10]);
-				int bookIdNum = Integer.parseInt(array[0]);
-				String bookIsbnNum = String.valueOf(array[5]);
-				double originalPublishingYear = Double.parseDouble(array[8]);
-				double averageRating = Double.parseDouble(array[12]);
-				
-				// Turns non-string variables to strings
-				String bookId = Integer.toString(bookIdNum);
-				String origPubYear = Double.toString(originalPublishingYear);
-				String avgRating = Double.toString(averageRating);
-				
-				// Creates a book object in the Book arrayList
-				Book book = new Book(bookId, bookIsbnNum, bookAuthor, bookTitle, avgRating, origPubYear);
-	            Books.add(book);
-	            
-	            
-	            //System.out.println(book);
-
-			}
-			
-			// Searching for book based on user inputed book ID
-			Collections.sort(Books);
-			String searchBookId = String.valueOf(userInput);
-			int searchResult = BookBinarySearch.binarySearchById(Books, searchBookId);
-			Book foundBook = Books.get(searchResult);
-			
-			if (searchResult != -1) {
-				
-				table.setRowCount(1);
-				
-				Object[] rowData = {
-					foundBook.getBookId(),
-					foundBook.getBookIsbn(),
-					foundBook.getBookPubYear(),
-					foundBook.getBookAuthor(),
-					foundBook.getBookRating(),
-				};
-				table.addRow(rowData);
-			}
-			else {
-				System.out.println("Book with ID: " + searchBookId + " cannot be found.");
-			}
-			
-			/*
-			// Testing sorting books in ascending and descending order based on rating
-			
-			System.out.println("Top 10 Books Sorted by Rating: ");
-			sortResultTextArea.append(binarySearch.bookRatingSort(Books, 10, true ));
-			System.out.println("Top 10 Books Sorted by Rating: ");
-			binarySearch.bookRatingSort(Books, 10, true );
-			System.out.println("");
-			System.out.println("Bottom 10 Books Sorted by Rating: ");
-			binarySearch.bookRatingSort(Books, 10, false);
-			*/
-			
-
-		} catch (FileNotFoundException e1) {
-
-			e1.printStackTrace();
-
-		} catch (IOException e1) {
-
-			e1.printStackTrace();
-
-		}
-    	
-    }
 
 }
 
@@ -206,7 +108,6 @@ class BookBinarySearch {
 				right = mid - 1;
 			}
 		}
-		
 		return -1;
 	}
 }
