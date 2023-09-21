@@ -89,6 +89,7 @@ class Book implements Comparable<Book>{
 
 // Searches for a book by it's ID
 class BookBinarySearch {
+	public static Timer timer = new Timer();
 	
 	public static int binarySearchById(ArrayList<Book> books, String bookId) {
 		int left = 0;
@@ -109,6 +110,10 @@ class BookBinarySearch {
 			}
 		}
 		return -1;
+	}
+	
+	public Timer getTimer() {
+		return timer;
 	}
 }
 

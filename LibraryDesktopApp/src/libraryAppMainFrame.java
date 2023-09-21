@@ -47,11 +47,12 @@ public class libraryAppMainFrame extends JFrame {
 		
 		model.setRowCount(1);
 		
-		model.setColumnIdentifiers(new Object[] {"ID", "ISBN", "Year", "Author", "Rating"});
+		model.setColumnIdentifiers(new Object[] {"ID", "Title", "ISBN", "Year", "Author", "Rating"});
 		
 		for (int i = startRow; i < endRow; i++) {
 			Book book = books.get(i);
 			Object[] rowData = {
+					book.getBookId(),
 					book.getBookTitle(),
 					book.getBookIsbn(),
 					book.getBookPubYear(),
@@ -69,7 +70,9 @@ public class libraryAppMainFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public libraryAppMainFrame() {
-		Timer timer = new Timer();
+		BookBinarySearch bookBinarySearch = new BookBinarySearch();
+		BookRatingSort bookRating = new BookRatingSort();
+		
 		
 		String filePath = "src/books(2).csv";
     	String line = "";
@@ -131,10 +134,10 @@ public class libraryAppMainFrame extends JFrame {
 		
 		model = new DefaultTableModel(
 				new Object[][] {
-					{"ID", "ISBN", "Year", "Author", "Rating"},
+					{"ID", "Title", "ISBN", "Year", "Author", "Rating"},
 				},
 				new String[] {
-						"New column", "New column", "New column", "New column", "New column"
+						"New column", "New column", "New column", "New column", "New column", "New column"
 				}
 			);
 		
@@ -153,7 +156,7 @@ public class libraryAppMainFrame extends JFrame {
 
 		        
 		        DefaultTableModel model = (DefaultTableModel) tblBookContainer.getModel();
-		        model.setColumnIdentifiers(new Object[]{"ID", "ISBN", "Year", "Author", "Rating"});
+		        model.setColumnIdentifiers(new Object[]{"ID", "Title", "ISBN", "Year", "Author", "Rating"});
 				
 			}
 		});
@@ -169,7 +172,7 @@ public class libraryAppMainFrame extends JFrame {
 
 		        
 		        DefaultTableModel model = (DefaultTableModel) tblBookContainer.getModel();
-		        model.setColumnIdentifiers(new Object[]{"ID", "ISBN", "Year", "Author", "Rating"});
+		        model.setColumnIdentifiers(new Object[]{"ID", "Title", "ISBN", "Year", "Author", "Rating"});
 			}
 		});
 		btnByYear.setBounds(416, 96, 122, 21);
@@ -184,7 +187,7 @@ public class libraryAppMainFrame extends JFrame {
 
 		        
 		        DefaultTableModel model = (DefaultTableModel) tblBookContainer.getModel();
-		        model.setColumnIdentifiers(new Object[]{"ID", "ISBN", "Year", "Author", "Rating"});
+		        model.setColumnIdentifiers(new Object[]{"ID", "Title", "ISBN", "Year", "Author", "Rating"});
 			}
 		});
 		btnByAuthor.setBounds(416, 160, 122, 21);
@@ -207,16 +210,19 @@ public class libraryAppMainFrame extends JFrame {
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String userInput = textField.getText().trim();
+				
+				bookBinarySearch.getTimer().start();
 
 					// Searching for book based on user inputed book ID
 					Collections.sort(Books);
 					String searchBookId = String.valueOf(userInput);
 					
-					timer.start();
 					int searchResult = BookBinarySearch.binarySearchById(Books, searchBookId);
 					
-					
 					Book foundBook = Books.get(searchResult);
+					
+					bookBinarySearch.getTimer().end();
+					System.out.println(bookBinarySearch.getTimer().getTotalTime());
 					
 					if (searchResult != -1) {
 						
@@ -224,14 +230,14 @@ public class libraryAppMainFrame extends JFrame {
 						
 						Object[] rowData = {
 							foundBook.getBookId(),
+							foundBook.getBookTitle(),
 							foundBook.getBookIsbn(),
 							foundBook.getBookPubYear(),
 							foundBook.getBookAuthor(),
 							foundBook.getBookRating(),
 						};
 						model.addRow(rowData);
-						timer.end();
-						System.out.println(timer.getTotalTime());
+						
 					}
 				}
 		});
@@ -242,6 +248,7 @@ public class libraryAppMainFrame extends JFrame {
 		contentPane.add(btnSearch);
 
 		JButton btnAscendingRating = new JButton("Ascending");
+		btnAscendingRating.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnAscendingRating.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Collections.sort(Books);
@@ -250,13 +257,14 @@ public class libraryAppMainFrame extends JFrame {
 
 		        
 		        DefaultTableModel model = (DefaultTableModel) tblBookContainer.getModel();
-		        model.setColumnIdentifiers(new Object[]{"ID", "ISBN", "Year", "Author", "Rating"});
+		        model.setColumnIdentifiers(new Object[]{"ID", "Title", "ISBN", "Year", "Author", "Rating"});
 			}
 		});
 		btnAscendingRating.setBounds(373, 65, 96, 21);
 		contentPane.add(btnAscendingRating);
 
 		JButton btnDescendingRating = new JButton("Descending");
+		btnDescendingRating.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnDescendingRating.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Collections.sort(Books);
@@ -265,10 +273,10 @@ public class libraryAppMainFrame extends JFrame {
 
 		        
 		        DefaultTableModel model = (DefaultTableModel) tblBookContainer.getModel();
-		        model.setColumnIdentifiers(new Object[]{"ID", "ISBN", "Year", "Author", "Rating"});
+		        model.setColumnIdentifiers(new Object[]{"ID", "Title", "ISBN", "Year", "Author", "Rating"});
 			}
 		});
-		btnDescendingRating.setBounds(479, 65, 90, 21);
+		btnDescendingRating.setBounds(479, 65, 96, 21);
 		contentPane.add(btnDescendingRating);
 		
 		displayPage(currentPage, Books);
@@ -298,6 +306,7 @@ public class libraryAppMainFrame extends JFrame {
 		contentPane.add(btnPageLeft);
 		
 		JButton btnDescendingAuthor = new JButton("Descending");
+		btnDescendingAuthor.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnDescendingAuthor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Collections.sort(Books);
@@ -306,14 +315,15 @@ public class libraryAppMainFrame extends JFrame {
 
 		        
 		        DefaultTableModel model = (DefaultTableModel) tblBookContainer.getModel();
-		        model.setColumnIdentifiers(new Object[]{"ID", "ISBN", "Year", "Author", "Rating"});
+		        model.setColumnIdentifiers(new Object[]{"ID", "Title", "ISBN", "Year", "Author", "Rating"});
 			}
 		});
 		
-		btnDescendingAuthor.setBounds(479, 192, 90, 21);
+		btnDescendingAuthor.setBounds(479, 192, 96, 21);
 		contentPane.add(btnDescendingAuthor);
 		
 		JButton btnAscendingAuthor = new JButton("Ascending");
+		btnAscendingAuthor.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnAscendingAuthor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Collections.sort(Books);
@@ -322,7 +332,7 @@ public class libraryAppMainFrame extends JFrame {
 
 		        
 		        DefaultTableModel model = (DefaultTableModel) tblBookContainer.getModel();
-		        model.setColumnIdentifiers(new Object[]{"ID", "ISBN", "Year", "Author", "Rating"});
+		        model.setColumnIdentifiers(new Object[]{"ID", "Title", "ISBN", "Year", "Author", "Rating"});
 			}
 		});
 		btnAscendingAuthor.setBounds(373, 192, 96, 21);
@@ -332,6 +342,7 @@ public class libraryAppMainFrame extends JFrame {
 		
 		
 		JButton btnDescendingYear = new JButton("Descending");
+		btnDescendingYear.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnDescendingYear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Collections.sort(Books);
@@ -340,13 +351,14 @@ public class libraryAppMainFrame extends JFrame {
 
 		        
 		        DefaultTableModel model = (DefaultTableModel) tblBookContainer.getModel();
-		        model.setColumnIdentifiers(new Object[]{"ID", "ISBN", "Year", "Author", "Rating"});
+		        model.setColumnIdentifiers(new Object[]{"ID", "Title", "ISBN", "Year", "Author", "Rating"});
 			}
 		});
-		btnDescendingYear.setBounds(479, 125, 90, 21);
+		btnDescendingYear.setBounds(479, 125, 96, 21);
 		contentPane.add(btnDescendingYear);
 		
 		JButton btnAscendingYear = new JButton("Ascending");
+		btnAscendingYear.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnAscendingYear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Collections.sort(Books);
@@ -355,7 +367,7 @@ public class libraryAppMainFrame extends JFrame {
 
 		        
 		        DefaultTableModel model = (DefaultTableModel) tblBookContainer.getModel();
-		        model.setColumnIdentifiers(new Object[]{"ID", "ISBN", "Year", "Author", "Rating"});
+		        model.setColumnIdentifiers(new Object[]{"ID", "Title", "ISBN", "Year", "Author", "Rating"});
 			}
 		});
 		btnAscendingYear.setBounds(373, 125, 96, 21);
